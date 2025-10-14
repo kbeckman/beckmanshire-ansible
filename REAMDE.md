@@ -9,7 +9,7 @@ This repository contains a collection of `ansible` playbooks targeted at provisi
 ```shell
 # Create an SSH key specific for ansible control and copy it to the target node...
 ssh-keygen -t ed25519 -b 4096 -C "ansible-controller@kbeckman-mbp.local" -f ~/.ssh/keys/ansible-controller
-ssh-copy-id -f ~/.ssh/keys/ansible-controller kbeckman@ansible-target.local
+ssh-copy-id -i ~/.ssh/keys/ansible-controller kbeckman@ansible-target.local
 
 # Required for VSCode plugins...
 pip install ansible-dev-tools --no-input
@@ -26,7 +26,7 @@ _Using the macOS `System Settings.app`..._
 
 ```shell
 # Edit the /etc/sudoers file with the following config to enable password-less SSH access for admins...
-# %admin		ALL = (ALL) NOPASSWD:ALL
+# %admin    ALL = (ALL) NOPASSWD:ALL
 sudo visudo
 
 # Install macOS command line tools...
@@ -38,6 +38,7 @@ xcode-select --install
 ```shell
 ansible-galaxy install -r requirements.yaml
 
+# Use the --check option to dry-run the operation...
 ansible-playbook -i inventory.yaml ./playbooks/prerequisites.yaml --limit <target-node-name>
 ansible-playbook -i inventory.yaml ./playbooks/homebrew.yaml --limit <target-node-name>
 ansible-playbook -i inventory.yaml ./playbooks/oh-my-zsh.yaml --limit <target-node-name>
