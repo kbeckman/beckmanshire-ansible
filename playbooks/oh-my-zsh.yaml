@@ -1,0 +1,20 @@
+---
+- name: Install Oh-My-ZSH
+  hosts: macos_development,localhost
+  tasks:
+    - name: Set ZSH as Default SHELL
+      ansible.builtin.user:
+        name: "{{ ansible_user }}"
+        shell: /opt/homebrew/bin/zsh
+      become: true
+
+    - name: Download Oh-My-ZSH
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+        dest: "/Users/{{ ansible_user }}/Downloads/ansible/install-oh-my-zsh.sh"
+        mode: '0755'
+
+    - name: Install ohmyzsh
+      ansible.builtin.command:
+        cmd: "/Users/{{ ansible_user }}/Downloads/ansible/install-oh-my-zsh.sh --unattended"
+        creates: "/Users/{{ ansible_user }}/.oh-my-zsh"

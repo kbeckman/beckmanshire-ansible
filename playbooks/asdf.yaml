@@ -1,0 +1,21 @@
+---
+- name: Install ASDF Plugins
+  hosts: macos_development,localhost
+  tasks:
+    - name: Concatenate common/node Plugins
+      ansible.builtin.set_fact:
+        asdf_plugins: "{{ common_asdf_plugins + node_asdf_plugins }}"
+
+    - name: Install ASDF Plugins
+      ansible.builtin.command:
+        cmd: "/opt/homebrew/bin/asdf plugin add {{ item }}"
+      with_items: "{{ asdf_plugins }}"
+      register: shell_output
+      changed_when: shell_output.rc != 0
+
+    - name: Update ASDF Plugins
+      ansible.builtin.command:
+        cmd: "/opt/homebrew/bin/asdf plugin update {{ item }}"
+      with_items: "{{ asdf_plugins }}"
+      register: shell_output
+      changed_when: shell_output.rc != 0

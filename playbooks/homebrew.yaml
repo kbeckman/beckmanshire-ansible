@@ -1,0 +1,49 @@
+---
+- name: Install Homebrew
+  hosts: macos_development,localhost
+  tasks:
+    - name: Download Homebrew Install Script
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
+        dest: "/Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
+        mode: '0755'
+
+    - name: Install Homebrew # noqa command-instead-of-shell
+      ansible.builtin.shell:
+        # Set NONINTERACTIVE=1 to disable prompts during installation...
+        cmd: "NONINTERACTIVE=1 /Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
+        creates: /opt/homebrew/bin/brew
+
+    - name: Verify Homebrew Installation
+      community.general.homebrew:
+        state: present
+      register: brew_install_result
+
+
+- name: Install Homebrew Packages
+  hosts: macos_development
+  gather_facts: false
+  tasks:
+    - name: Concatenate common/node Packages
+      ansible.builtin.set_fact:
+        homebrew_packages: "{{ common_homebrew_packages + node_homebrew_packages }}"
+
+    - name: Install Homebrew Packages
+      community.general.homebrew:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ homebrew_packages }}"
+
+
+- name: Install Homebrew Casks
+  hosts: macos_development
+  tasks:
+    - name: Concatenate common/node Casks
+      ansible.builtin.set_fact:
+        homebrew_casks: "{{ common_homebrew_casks + node_homebrew_casks }}"
+
+    - name: Install Homebrew Casks
+      community.general.homebrew_cask:
+        name: "{{ item }}"
+        state: present
+      with_items: "{{ homebrew_casks }}"

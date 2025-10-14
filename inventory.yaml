@@ -1,0 +1,78 @@
+all:
+  hosts:
+    localhost:
+      ansible_connection: local
+      ansible_user: kbeckman
+  vars:
+    common_asdf_plugins:
+      - checkov
+      - cookiecutter
+      - eksctl
+      - golang
+      - helm
+      - nodejs
+      - postgres
+      - python
+      - redis
+      - ruby
+      - terraform
+    common_homebrew_casks:
+      - 1password
+      - 1password-cli
+      - aldente
+      - docker-desktop
+      - drawio
+      - firefox@developer-edition
+      - flux
+      - github
+      - iterm2
+      - lens
+      - postman
+      - slack
+      - sourcetree
+      - visual-studio-code
+    common_homebrew_packages:
+      - asdf
+      - awscli
+      - curl
+      - git
+      - imagemagick
+      - make
+      - p7zip
+      - ssh-copy-id
+      - tmux
+      - tree
+      - vim
+      - wget
+      - yadm
+      - zsh
+      # TODO: provide package list for installing postgresql via ASDF...
+
+  children:
+    macos_development:
+      hosts:
+        kbeckman_m4:
+          ansible_host: kbeckman-m4.local
+          ansible_user: kbeckman
+          ansible_ssh_private_key_file: /Users/kbeckman/.ssh/keys/ansible-controller
+          node_asdf_plugins:
+            - elixir
+            - erlang
+          node_homebrew_casks:
+            - google-drive
+            - signal
+            # - torguard # requires rosetta2 / will need to manually approve installation
+          node_homebrew_packages: []
+
+        kbeckman_postpilot:
+          ansible_host: kbeckman-postpilot.local
+          ansible_user: keithbeckman
+          ansible_ssh_private_key_file: /Users/kbeckman/.ssh/keys/ansible-controller
+          node_asdf_plugins:
+            - opentofu
+          node_homebrew_casks:
+            - cursor
+            - gcloud-cli
+          node_homebrew_packages:
+            - heroku
+
