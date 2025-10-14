@@ -1,3 +1,4 @@
+---
 - name: Install ASDF Plugins
   hosts: macos_development,localhost
   tasks:

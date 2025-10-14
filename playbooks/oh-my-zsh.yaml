@@ -1,3 +1,4 @@
+---
 - name: Install Oh-My-ZSH
   hosts: macos_development,localhost
   tasks:
