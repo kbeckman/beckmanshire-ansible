@@ -1,0 +1,9 @@
+---
+roles:
+collections:
+  - name: community.crypto
+    version: 3.0.4
+  - name: community.general
+    version: 11.3.0
+  - name: geerlingguy.mac
+    version: 4.1.0
