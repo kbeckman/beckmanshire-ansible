@@ -1,0 +1,23 @@
+---
+- name: Install Ansible Prerequisites
+  hosts: macos_development,localhost
+  tasks:
+    - name: Create Directories
+      ansible.builtin.file:
+        path: "{{ item.path }}"
+        group: "{{ item.group | default('root') }}"
+        owner: "{{ item.owner | default('root') }}"
+        mode: "{{ item.mode | default('0755') }}"
+        recurse: true
+        state: directory
+      loop:
+        - { path: "/Users/{{ ansible_user }}/Code", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
+        - { path: "/Users/{{ ansible_user }}/Code/github.com", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
+        - { path: "/Users/{{ ansible_user }}/Downloads/ansible", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
+        - { path: "/Users/{{ ansible_user }}/Pictures/draw.io", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
+
+    - name: Create GitHub SSH Key
+      community.crypto.openssh_keypair:
+        path: "/Users/{{ ansible_user }}/.ssh/id_ed25519"
+        passphrase: ""
+        type: ed25519
