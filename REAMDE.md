@@ -39,9 +39,9 @@ xcode-select --install
 ansible-galaxy install -r requirements.yaml
 
 # Use the --check option to dry-run the operation...
-ansible-playbook -i inventory.yaml ./playbooks/prerequisites.yaml --limit <target-node-name>
-ansible-playbook -i inventory.yaml ./playbooks/homebrew.yaml --limit <target-node-name>
-ansible-playbook -i inventory.yaml ./playbooks/oh-my-zsh.yaml --limit <target-node-name>
-ansible-playbook -i inventory.yaml ./playbooks/asdf.yaml --limit <target-node-name>
-ansible-playbook -i inventory.yaml ./playbooks/time-machine.yaml --limit <target-node-name>
+ansible-playbook ./playbooks/prerequisites.yaml --limit <target-node-name>
+ansible-playbook ./playbooks/homebrew.yaml --limit <target-node-name>
+ansible-playbook ./playbooks/oh-my-zsh.yaml --limit <target-node-name>
+ansible-playbook ./playbooks/asdf.yaml --limit <target-node-name>
+ansible-playbook ./playbooks/time-machine.yaml --limit <target-node-name>
 ```
