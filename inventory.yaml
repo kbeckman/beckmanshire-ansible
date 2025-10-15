@@ -32,6 +32,7 @@ all:
       - sourcetree
       - visual-studio-code
     common_homebrew_packages:
+      - ansible
       - asdf
       - awscli
       - curl
