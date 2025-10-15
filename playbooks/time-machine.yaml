@@ -1,0 +1,45 @@
+# https://www.macworld.com/article/220774/control-time-machine-from-the-command-line.html
+- name: Configure TimeMachine
+  hosts: development
+  vars:
+    excluded_dirs:
+      - ~/.ansible
+      - ~/.asdf
+      - ~/.aws
+      - ~/.bundle
+      - ~/.cache
+      - ~/.config
+      - ~/.cookiecutter_replay
+      - ~/.cups
+      - ~/.docker
+      - ~/.gem
+      - ~/.git-scripts
+      - ~/.gnupg
+      - ~/.iterm2
+      - ~/.k8s_lens
+      - ~/.kube
+      - ~/.local
+      - ~/.mongodb
+      - ~/.oh-my-zsh
+      - ~/.oh-my-zsh-custom
+      - ~/.shell-scripts
+      - ~/.terraform.c
+      - ~/.Trash
+      - ~/.tflint.d
+      - ~/.vim
+      - ~/.vscode
+      - ~/.vscode-cli
+      - ~/.zsh_sessions
+      - ~/Downloads
+      - ~/Library
+      - ~/Movies
+      - ~/Public
+      - ~/Virtual Machines
+  tasks:
+    - name: Configure Exclusions
+      ansible.builtin.shell: |
+        sudo tmutil addexclusion -p {{ item }}
+      with_items: "{{ excluded_dirs }}"
+      register: shell_output
+      changed_when: shell_output.rc != 0
+      become: true
