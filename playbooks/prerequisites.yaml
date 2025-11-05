@@ -15,6 +15,7 @@
         - { path: "/Users/{{ ansible_user }}/Code/github.com", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
         - { path: "/Users/{{ ansible_user }}/Downloads/ansible", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
         - { path: "/Users/{{ ansible_user }}/Pictures/draw.io", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
+        - { path: "/Users/{{ ansible_user }}/VMs", owner: "{{ ansible_user }}", group: staff, mode: '0755' }
 
     - name: Create GitHub SSH Key
       community.crypto.openssh_keypair:
