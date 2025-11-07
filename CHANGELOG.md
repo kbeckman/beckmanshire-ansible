@@ -1,5 +1,11 @@
 # beckmanshire-ansible ChangeLog
 
+## [11/6/2025]
+
+* Adds `playbook/time-machine` implementation to configure ignore targets for macOS `Time Machine`.
+* Updates `playbook/prerequisites` to provision `~/VMs` directory.
+* Fixes `README.md` filename typo.
+
 ## [10/13/2025]
 
 * Initial project implementation.

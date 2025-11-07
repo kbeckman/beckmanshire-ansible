@@ -6,12 +6,15 @@ This repository contains a collection of `ansible` playbooks targeted at provisi
 
 ### Ansible Controller Node
 
+_If your controller node does not have `ansible`: `brew install ansible`_
+
 ```shell
 # Create an SSH key specific for ansible control and copy it to the target node...
 ssh-keygen -t ed25519 -b 4096 -C "ansible-controller@kbeckman-mbp.local" -f ~/.ssh/keys/ansible-controller
 ssh-copy-id -i ~/.ssh/keys/ansible-controller kbeckman@ansible-target.local
 
 # Required for VSCode plugins...
+pip install ansible-core --no-input
 pip install ansible-dev-tools --no-input
 pip install ansible-lint --no-input
 ```

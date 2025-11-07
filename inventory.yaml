@@ -6,7 +6,6 @@ all:
   vars:
     common_asdf_plugins:
       - checkov
-      - cookiecutter
       - eksctl
       - golang
       - helm
@@ -32,8 +31,10 @@ all:
       - sourcetree
       - visual-studio-code
     common_homebrew_packages:
+      - ansible
       - asdf
       - awscli
+      - cookiecutter
       - curl
       - git
       - imagemagick
