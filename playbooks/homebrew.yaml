@@ -21,8 +21,8 @@
 
 
 - name: Install Homebrew Packages
-  hosts: macos_development
-  gather_facts: false
+  hosts: macos_development,localhost
+  # gather_facts: false
   tasks:
     - name: Concatenate common/node Packages
       ansible.builtin.set_fact:
@@ -36,7 +36,7 @@
 
 
 - name: Install Homebrew Casks
-  hosts: macos_development
+  hosts: macos_development,localhost
   tasks:
     - name: Concatenate common/node Casks
       ansible.builtin.set_fact:
