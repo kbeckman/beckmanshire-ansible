@@ -2,7 +2,7 @@ all:
   hosts:
     localhost:
       ansible_connection: local
-      ansible_user: kbeckman
+      ansible_user: keithbeckman
   vars:
     common_asdf_plugins:
       - checkov
@@ -34,12 +34,14 @@ all:
       - ansible
       - asdf
       - awscli
+      - cfn-lint
       - cookiecutter
       - curl
       - git
       - imagemagick
       - make
       - p7zip
+      - shellcheck
       - ssh-copy-id
       - tmux
       - tree
@@ -52,6 +54,16 @@ all:
   children:
     macos_development:
       hosts:
+        localhost:
+          ansible_user: keithbeckman
+          node_asdf_plugins:
+          node_homebrew_casks:
+            - antigravity
+            - claude-code
+            - gcloud-cli
+          node_homebrew_packages:
+            - heroku
+
         kbeckman_m4:
           ansible_host: kbeckman-m4.local
           ansible_user: kbeckman
@@ -65,15 +77,15 @@ all:
             # - torguard # requires rosetta2 / will need to manually approve installation
           node_homebrew_packages: []
 
-        kbeckman_postpilot:
-          ansible_host: kbeckman-postpilot.local
-          ansible_user: keithbeckman
-          ansible_ssh_private_key_file: /Users/kbeckman/.ssh/keys/ansible-controller
-          node_asdf_plugins:
-            - opentofu
-          node_homebrew_casks:
-            - cursor
-            - gcloud-cli
-          node_homebrew_packages:
-            - heroku
+        # kbeckman_postpilot:
+        #   ansible_host: kbeckman-postpilot.local
+        #   ansible_user: keithbeckman
+        #   ansible_ssh_private_key_file: /Users/kbeckman/.ssh/keys/ansible-controller
+        #   node_asdf_plugins:
+        #     - opentofu
+        #   node_homebrew_casks:
+        #     - cursor
+        #     - gcloud-cli
+        #   node_homebrew_packages:
+        #     - heroku
 
