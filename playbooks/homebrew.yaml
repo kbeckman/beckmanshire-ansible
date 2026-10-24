@@ -1,8 +1,8 @@
 ---
-- name: Install Homebrew
+- name: Install / Upgrade Homebrew
   hosts: macos_development,localhost
   tasks:
-    - name: Download Homebrew Install Script
+    - name: Download Install Script
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
         dest: "/Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
@@ -14,10 +14,14 @@
         cmd: "NONINTERACTIVE=1 /Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
         creates: /opt/homebrew/bin/brew
 
-    - name: Verify Homebrew Installation
+    - name: Verify Installation
       community.general.homebrew:
         state: present
       register: brew_install_result
+
+    - name: Update Homebrew
+      community.general.homebrew:
+        update_homebrew: true
 
 
 - name: Install Homebrew Packages
@@ -27,11 +31,15 @@
       ansible.builtin.set_fact:
         homebrew_packages: "{{ common_homebrew_packages + node_homebrew_packages }}"
 
-    - name: Install Homebrew Packages
+    - name: Install Packages
       community.general.homebrew:
         name: "{{ item }}"
         state: present
       with_items: "{{ homebrew_packages }}"
+
+    - name: Upgrade Packages
+      community.general.homebrew:
+        upgrade_all: true
 
 
 - name: Install Homebrew Casks
@@ -41,8 +49,12 @@
       ansible.builtin.set_fact:
         homebrew_casks: "{{ common_homebrew_casks + node_homebrew_casks }}"
 
-    - name: Install Homebrew Casks
+    - name: Install Casks
       community.general.homebrew_cask:
         name: "{{ item }}"
         state: present
       with_items: "{{ homebrew_casks }}"
+
+    - name: Upgrade All Casks
+      community.general.homebrew_cask:
+        upgrade_all: true
