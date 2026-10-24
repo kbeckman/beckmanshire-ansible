@@ -1,0 +1,7 @@
+# Initial configuration: https://github.com/github/gitignore/blob/main/Global/Ansible.gitignore
+
+# The default root path for Ansible config files on the controller
+.ansible/
+
+# Retry files generated for failed Ansible playbook runs
+*.retry
