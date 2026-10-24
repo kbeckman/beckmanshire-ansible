@@ -54,7 +54,11 @@
 - name: Upgrade All Packages / Casks
   hosts: macos_development,localhost
   tasks:
-    - name: Upgrade All
+    - name: Upgrade All Packages
+      community.general.homebrew:
+        upgrade_all: true
+
+    - name: Upgrade All Casks
       community.general.homebrew_cask:
         upgrade_all: true
 
