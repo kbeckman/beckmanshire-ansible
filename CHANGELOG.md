@@ -1,5 +1,13 @@
 # beckmanshire-ansible ChangeLog
 
+## [10/24/2026]
+
+* Modifies `ansible.cfg` for local, project specific configuration (isolated from `~/.ansible`).
+* Updates project dependencies to latest versions in `requirements.yaml`.
+* Updates `asdf` plugin and `homebrew` package/cask installations n `inventory.yaml`.
+* Updates `playbook/homebrew` to perform the following on every invocation: update `homebrew` CLI, upgrade all packages,
+  upgrade all casks.
+
 ## [11/6/2025]
 
 * Adds `playbook/time-machine` implementation to configure ignore targets for macOS `Time Machine`.
