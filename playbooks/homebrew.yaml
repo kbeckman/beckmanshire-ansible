@@ -37,10 +37,6 @@
         state: present
       with_items: "{{ homebrew_packages }}"
 
-    - name: Upgrade Packages
-      community.general.homebrew:
-        upgrade_all: true
-
 
 - name: Install Homebrew Casks
   hosts: macos_development,localhost
@@ -55,6 +51,15 @@
         state: present
       with_items: "{{ homebrew_casks }}"
 
-    - name: Upgrade All Casks
+- name: Upgrade All Packages / Casks
+  hosts: macos_development,localhost
+  tasks:
+    - name: Upgrade All
       community.general.homebrew_cask:
         upgrade_all: true
+
+    - name: Clean Up Homebrew
+      ansible.builtin.command:
+        cmd: /opt/homebrew/bin/brew cleanup
+      register: brew_cleanup_result
+      changed_when: "'Removing' in brew_cleanup_result.stdout"
