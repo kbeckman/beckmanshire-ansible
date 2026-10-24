@@ -8,6 +8,7 @@ all:
         - erlang
       node_homebrew_casks:
         - google-drive
+        - sameboy
         - signal
         - torguard
       node_homebrew_packages: []
