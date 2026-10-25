@@ -1,34 +1,38 @@
 ---
-- name: Install Homebrew
+- name: Install / Upgrade Homebrew
   hosts: macos_development,localhost
   tasks:
-    - name: Download Homebrew Install Script
+    - name: Download Install Script
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh
         dest: "/Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
         mode: '0755'
 
-    - name: Install Homebrew # noqa command-instead-of-shell
-      ansible.builtin.shell:
-        # Set NONINTERACTIVE=1 to disable prompts during installation...
-        cmd: "NONINTERACTIVE=1 /Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
+    - name: Install Homebrew
+      ansible.builtin.command:
+        cmd: "/Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
         creates: /opt/homebrew/bin/brew
+      environment:
+        NONINTERACTIVE: "1"  # To disable prompts during installation...
 
-    - name: Verify Homebrew Installation
+    - name: Verify Installation
       community.general.homebrew:
         state: present
       register: brew_install_result
 
+    - name: Update Homebrew
+      community.general.homebrew:
+        update_homebrew: true
+
 
 - name: Install Homebrew Packages
-  hosts: macos_development
-  gather_facts: false
+  hosts: macos_development,localhost
   tasks:
     - name: Concatenate common/node Packages
       ansible.builtin.set_fact:
         homebrew_packages: "{{ common_homebrew_packages + node_homebrew_packages }}"
 
-    - name: Install Homebrew Packages
+    - name: Install Packages
       community.general.homebrew:
         name: "{{ item }}"
         state: present
@@ -36,14 +40,31 @@
 
 
 - name: Install Homebrew Casks
-  hosts: macos_development
+  hosts: macos_development,localhost
   tasks:
     - name: Concatenate common/node Casks
       ansible.builtin.set_fact:
         homebrew_casks: "{{ common_homebrew_casks + node_homebrew_casks }}"
 
-    - name: Install Homebrew Casks
+    - name: Install Casks
       community.general.homebrew_cask:
         name: "{{ item }}"
         state: present
       with_items: "{{ homebrew_casks }}"
+
+- name: Upgrade All Packages / Casks
+  hosts: macos_development,localhost
+  tasks:
+    - name: Upgrade All Packages
+      community.general.homebrew:
+        upgrade_all: true
+
+    - name: Upgrade All Casks
+      community.general.homebrew_cask:
+        upgrade_all: true
+
+    - name: Clean Up Homebrew
+      ansible.builtin.command:
+        cmd: /opt/homebrew/bin/brew cleanup
+      register: brew_cleanup_result
+      changed_when: "'Removing' in brew_cleanup_result.stdout"

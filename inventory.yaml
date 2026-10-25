@@ -3,9 +3,17 @@ all:
     localhost:
       ansible_connection: local
       ansible_user: kbeckman
+      node_asdf_plugins:
+        - elixir
+        - erlang
+      node_homebrew_casks:
+        - google-drive
+        - sameboy
+        - signal
+        - torguard
+      node_homebrew_packages: []
   vars:
     common_asdf_plugins:
-      - checkov
       - eksctl
       - golang
       - helm
@@ -19,10 +27,12 @@ all:
       - 1password
       - 1password-cli
       - aldente
+      - claude
+      - claude-code
       - docker-desktop
       - drawio
       - firefox@developer-edition
-      - flux
+      - flux-app
       - github
       - iterm2
       - lens
@@ -30,6 +40,7 @@ all:
       - slack
       - sourcetree
       - visual-studio-code
+      - zoom
     common_homebrew_packages:
       - ansible
       - asdf
@@ -37,9 +48,11 @@ all:
       - cookiecutter
       - curl
       - git
+      - gh
       - imagemagick
       - make
       - p7zip
+      - ripgrep
       - ssh-copy-id
       - tmux
       - tree
@@ -70,7 +83,6 @@ all:
           ansible_user: keithbeckman
           ansible_ssh_private_key_file: /Users/kbeckman/.ssh/keys/ansible-controller
           node_asdf_plugins:
-            - opentofu
           node_homebrew_casks:
             - cursor
             - gcloud-cli
