@@ -8,11 +8,12 @@
         dest: "/Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
         mode: '0755'
 
-    - name: Install Homebrew # noqa command-instead-of-shell
-      ansible.builtin.shell:
-        # Set NONINTERACTIVE=1 to disable prompts during installation...
-        cmd: "NONINTERACTIVE=1 /Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
+    - name: Install Homebrew
+      ansible.builtin.command:
+        cmd: "/Users/{{ ansible_user }}/Downloads/ansible/install-homebrew.sh"
         creates: /opt/homebrew/bin/brew
+      environment:
+        NONINTERACTIVE: "1"  # To disable prompts during installation...
 
     - name: Verify Installation
       community.general.homebrew:
